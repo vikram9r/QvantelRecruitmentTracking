@@ -69,7 +69,7 @@ CREATE TABLE `job` (
   UNIQUE KEY `id_UNIQUE` (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
 
-CREATE TABLE `user1` (
+CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `first_name` varchar(45) DEFAULT NULL,
   `middle_name` varchar(45) DEFAULT NULL,
