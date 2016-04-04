@@ -29,7 +29,7 @@
   password="qvantel" 
   type="javax.sql.DataSource" 
   url="jdbc:mysql://localhost:3306/qvantel_recruitment_tracking" 
-  username="root"/></textarea>
+  username="root"/></textarea><br/>
   <code><i>Tomacat_home/context.xml</i></code> </br>
   <textarea><ResourceLink name="jdbc/Qvantel_DB" global="jdbc/Qvantel_DB"
 	auth="Container" type="javax.sql.DataSource" /></textarea>
