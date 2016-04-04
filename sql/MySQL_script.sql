@@ -33,8 +33,12 @@ CREATE TABLE `candidate` (
   `experience_summary` text,
   `projects` text,
   `notice_period` varchar(45) DEFAULT NULL,
+  `job_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `FK_JOB_TRANSACTION_JOB_ID` (`job_id`),
+  CONSTRAINT `FK_JOB_TRANSACTION_JOB_ID` FOREIGN KEY (`job_id`)
+  REFERENCES `job` (`job_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
 CREATE TABLE `job` (
