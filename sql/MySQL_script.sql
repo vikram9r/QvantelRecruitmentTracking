@@ -39,7 +39,7 @@ CREATE TABLE `candidate` (
   KEY `FK_JOB_TRANSACTION_JOB_ID` (`job_id`),
   CONSTRAINT `FK_JOB_TRANSACTION_JOB_ID` FOREIGN KEY (`job_id`)
   REFERENCES `job` (`job_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
 
 CREATE TABLE `job` (
   `job_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -69,7 +69,7 @@ CREATE TABLE `job` (
   `make_salary_visible_to_public` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`job_id`),
   UNIQUE KEY `id_UNIQUE` (`job_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
 
 CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
