@@ -1,12 +1,16 @@
 package com.qvantel.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,28 +19,29 @@ public class Job {
 	private int id;
 	private String jobTitle;
 	private String designation;
+	private Set<Candidate> applicants = new HashSet<Candidate>();
 	private String industry;
 	private String functionalArea;
 	private String briefDescription;
 	private String detailDescription;
 	private String mainSkill;
 	private String qualification;
-	private String minimumExperience;
-	private String maximumExperience;
+	private Float minimumExperience = (float)0.0;
+	private Float maximumExperience = (float)0.0;
 	private Date startDate;
 	private Date lastDate;
 	private String recruiters;
 	private String contactName;
 	private String contactEmail;
-	private Boolean emailNotification;
+	private Integer emailNotification = 0;
 	private String city;
 	private String state;
 	private String country;
 	private String requirementType;
 	private String otherSkills;
-	private String noOfOpenings;
+	private Integer noOfOpenings = 0;
 	private String jobStage;
-	private String makeSalaryVisibleToPublic;
+	private Integer makeSalaryVisibleToPublic = 0;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,6 +70,14 @@ public class Job {
 
 	public void setDesignation(String designation) {
 		this.designation = designation;
+	}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "job")
+	public Set<Candidate> getApplicants() {
+		return applicants;
+	}
+
+	public void setApplicants(Set<Candidate> applicants) {
+		this.applicants = applicants;
 	}
 
 	@Column( name = "industry", length = 45  )
@@ -121,21 +134,21 @@ public class Job {
 		this.qualification = qualification;
 	}
 
-	@Column( name = "minimum_experience", length = 45  )
-	public String getMinimumExperience() {
+	@Column( name = "minimum_experience" )
+	public Float getMinimumExperience() {
 		return minimumExperience;
 	}
 
-	public void setMinimumExperience(String minimumExperience) {
+	public void setMinimumExperience(Float minimumExperience) {
 		this.minimumExperience = minimumExperience;
 	}
 
-	@Column( name = "maximum_experience", length = 45  )
-	public String getMaximumExperience() {
+	@Column( name = "maximum_experience")
+	public Float getMaximumExperience() {
 		return maximumExperience;
 	}
 
-	public void setMaximumExperience(String maximumExperience) {
+	public void setMaximumExperience(Float maximumExperience) {
 		this.maximumExperience = maximumExperience;
 	}
 
@@ -185,11 +198,11 @@ public class Job {
 	}
 
 	@Column( name = "email_notification"  )
-	public Boolean getEmailNotification() {
+	public Integer getEmailNotification() {
 		return emailNotification;
 	}
 
-	public void setEmailNotification(Boolean emailNotification) {
+	public void setEmailNotification(Integer emailNotification) {
 		this.emailNotification = emailNotification;
 	}
 
@@ -239,11 +252,11 @@ public class Job {
 	}
 
 	@Column( name = "number_of_openings", length = 45  )
-	public String getNoOfOpenings() {
+	public Integer getNoOfOpenings() {
 		return noOfOpenings;
 	}
 
-	public void setNoOfOpenings(String noOfOpenings) {
+	public void setNoOfOpenings(Integer noOfOpenings) {
 		this.noOfOpenings = noOfOpenings;
 	}
 
@@ -257,11 +270,11 @@ public class Job {
 	}
 
 	@Column( name = "make_salary_visible_to_public"  )
-	public String getMakeSalaryVisibleToPublic() {
+	public Integer getMakeSalaryVisibleToPublic() {
 		return makeSalaryVisibleToPublic;
 	}
 
-	public void setMakeSalaryVisibleToPublic(String makeSalaryVisibleToPublic) {
+	public void setMakeSalaryVisibleToPublic(Integer makeSalaryVisibleToPublic) {
 		this.makeSalaryVisibleToPublic = makeSalaryVisibleToPublic;
 	}
 

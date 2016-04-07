@@ -17,16 +17,15 @@ public class User implements Cloneable, Serializable{
 	private String firstName;
 	private String middleName;
 	private String lastName;
-	private String employeeCode;
-	private String description;
-	private String jobTitle;
 	private String userName;
 	private String password;
+	private String employeeCode;
+	private String description;
 	private String email;
 	private String phone;
 	private String mobile;
 	private String role;
-	private Boolean status;
+	private String status = Status.ACTIVE.getState();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +47,7 @@ public class User implements Cloneable, Serializable{
 		this.firstName = firstName;
 	}
 
-	@Column( name = "user_login", length = 45  )
+	@Column( name = "user_login", unique=true, nullable=false)
 	public String getUserName() {
 		return userName;
 	}
@@ -57,7 +56,7 @@ public class User implements Cloneable, Serializable{
 		this.userName = userName;
 	}
 
-	@Column( name = "password", length = 45  )
+	@Column( name = "password", nullable=false)
 	public String getPassword() {
 		return password;
 	}
@@ -92,6 +91,15 @@ public class User implements Cloneable, Serializable{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+	@Column( name = "status", length = 45  )
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Column( name = "employee_code", length = 45  )
 	public String getEmployeeCode() {
@@ -111,14 +119,7 @@ public class User implements Cloneable, Serializable{
 		this.description = description;
 	}
 
-	@Column( name = "job_title", length = 45  )
-	public String getJobTitle() {
-		return jobTitle;
-	}
-
-	public void setJobTitle(String jobTitle) {
-		this.jobTitle = jobTitle;
-	}
+	
 
 	@Column( name = "phone", length = 45  )
 	public String getPhone() {
@@ -147,14 +148,7 @@ public class User implements Cloneable, Serializable{
 		this.role = role;
 	}
 
-	@Column( name = "status", length = 45  )
-	public Boolean getStatus() {
-		return status;
-	}
-
-	public void setStatus(Boolean status) {
-		this.status = status;
-	}
+	
 
 	@Override
 	public int hashCode() {

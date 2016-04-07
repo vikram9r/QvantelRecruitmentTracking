@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +17,7 @@ import javax.persistence.Table;
 public class Candidate {
 	
 	private int id;
+	private Job job;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -30,7 +34,9 @@ public class Candidate {
 	private String country;
 	private String zipCode;
 	private String phone;
-//	private String profilePhoto;
+	private byte[] profilePhoto;
+	private String resumeName;
+	private byte[] resume;
 	private Date preferContactTime;
 	private String industry;
 	private String functionalArea;
@@ -57,6 +63,16 @@ public class Candidate {
 		this.id = id;
 	}
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "job_id", nullable = false)
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
+	}
+
 	@Column( name = "first_name", length = 45  )
 	public String getFirstName() {
 		return firstName;
@@ -334,6 +350,33 @@ public class Candidate {
 
 	public void setNoticePeriod(String noticePeriod) {
 		this.noticePeriod = noticePeriod;
+	}
+
+	@Column( name = "profile_photo")
+	public byte[] getProfilePhoto() {
+		return profilePhoto;
+	}
+
+	public void setProfilePhoto(byte[] profilePhoto) {
+		this.profilePhoto = profilePhoto;
+	}
+
+	@Column( name = "resume_name")
+	public String getResumeName() {
+		return resumeName;
+	}
+
+	public void setResumeName(String resumeName) {
+		this.resumeName = resumeName;
+	}
+
+	@Column( name = "resume")
+	public byte[] getResume() {
+		return resume;
+	}
+
+	public void setResume(byte[] resume) {
+		this.resume = resume;
 	}
 
 	@Override
