@@ -33,10 +33,12 @@ CREATE TABLE `candidate` (
   `experience_summary` text,
   `projects` text,
   `notice_period` varchar(45) DEFAULT NULL,
+  `job_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `email_UNIQUE` (`email`),
-  UNIQUE KEY `mobile_number_UNIQUE` (`mobile_number`)
+  KEY `FK_JOB_TRANSACTION_JOB_ID` (`job_id`),
+  CONSTRAINT `FK_JOB_TRANSACTION_JOB_ID` FOREIGN KEY (`job_id`)
+  REFERENCES `job` (`job_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
 
 CREATE TABLE `job` (
@@ -64,7 +66,7 @@ CREATE TABLE `job` (
   `other_skill` text,
   `number_of_openings` int(11) DEFAULT NULL,
   `job_stage` varchar(45) DEFAULT NULL,
-  `make_salary_visible_to_public` tinyint(4) DEFAULT NULL,
+  `make_salary_visible_to_public` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`job_id`),
   UNIQUE KEY `id_UNIQUE` (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
