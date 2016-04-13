@@ -2,6 +2,7 @@ package com.qvantel.web.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,18 +16,23 @@ import org.apache.poi.hwpf.HWPFDocumentCore;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
 import org.apache.poi.hwpf.converter.WordToHtmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 
 import com.qvantel.dao.CandidateDAO;
 import com.qvantel.dao.JobDAO;
+import com.qvantel.dao.ProfilesScreenedDAO;
+import com.qvantel.dao.UserDAO;
 import com.qvantel.model.Candidate;
+import com.qvantel.model.ProfilesScreened;
 
 /**
  * Handles requests for the application home page.
@@ -38,14 +44,12 @@ public class CandidateController {
 	private CandidateDAO candidateDAO;
 	@Autowired
 	private JobDAO jobDAO;
+	@Autowired
+	private UserDAO userDAO;
+	@Autowired
+	private ProfilesScreenedDAO profilesScreenedDAO;
 	
-	/*@RequestMapping(value="/")
-	public ModelAndView home() {
-		ModelAndView model = new ModelAndView("home");
-		model.addObject("candidateList", candidateDAO.list());
-		return model;
-	}*/
-	
+	@Transactional(readOnly = true)
 	@RequestMapping(value="/viewCandidates")
 	public ModelAndView viewCandidates() {
 		ModelAndView model = new ModelAndView("candidateList");
@@ -71,20 +75,38 @@ public class CandidateController {
 	}
 	
 	@RequestMapping(value="/saveCandidate")
-	public ModelAndView saveCandidate(@RequestParam CommonsMultipartFile resume, @ModelAttribute("candidate")Candidate candidate, BindingResult result, HttpServletRequest request) {
-		//for setting resume file to candidate pojo
-		/*f (resume != null && resume.length > 0) {
-            for (CommonsMultipartFile aFile : resume){*/
-                System.out.println("Saving file: " + resume.getOriginalFilename());
-                candidate.setResumeName(resume.getOriginalFilename());
-                candidate.setResume(resume.getBytes());
- /*           }
-        }*/
-		
+	public ModelAndView saveCandidate(/*@RequestParam CommonsMultipartFile resume,*/ @ModelAttribute("candidate")Candidate candidate, BindingResult result, HttpServletRequest request) {
+		candidate.setStatus("New");
 		candidateDAO.create(candidate);
 		ModelAndView model = new ModelAndView("candidateList");
 		model.addObject("candidateList", candidateDAO.getAll());
 		return model;
+	}
+	
+	@RequestMapping(value="/shareProfilesForScreening")
+	public ModelAndView shareProfilesForScreening(@RequestParam(value="candidate_ids[]", required=false) Integer[] candidate_ids) {
+		ModelAndView model = new ModelAndView("shareSelectedProfilesForScreening");
+		model.addObject("users", userDAO.getAll());
+		model.addObject("candidate_ids", Arrays.asList(candidate_ids));
+		return model;
+	}
+	
+	@RequestMapping(value="/profilesScreenedTo", method = RequestMethod.POST)
+	public ModelAndView profilesScreenedTo(@RequestParam String profiesScreenedTo, @RequestParam(required=false) String candidate_ids, HttpServletRequest request) {
+		Integer current_user_id = userDAO.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+		String[] candidates = candidate_ids.replace("[", "").replace("]", "").split(",");
+		for(String candidate_id : candidates){
+			candidate_id = candidate_id.trim();
+			Candidate candidate = candidateDAO.get(Integer.valueOf(candidate_id));
+			candidate.setStatus("Shared for Screening");
+			candidateDAO.update(candidate);
+			ProfilesScreened profilesScreened = new ProfilesScreened();
+			profilesScreened.setCandidate_id(Integer.valueOf(candidate_id));
+			profilesScreened.setShared_by_user_id(current_user_id);
+			profilesScreened.setShared_to_user_id(Integer.valueOf(profiesScreenedTo));
+			profilesScreenedDAO.create(profilesScreened);
+		}
+		return viewCandidates();
 	}
 	
 	@RequestMapping(value="/viewResume")

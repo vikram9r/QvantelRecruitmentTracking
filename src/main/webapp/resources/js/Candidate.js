@@ -14,10 +14,10 @@ function viewJobs() {
 			"viewJobs",
 			{ showType: "view" },
 			function(data) {
-				$('#jobsTab').html(data);
+//				$('#jobsTab').html(data);
 			}
 	);
-	$("#tabs").tabs("select", "#jobsTab");
+//	$("#tabs").tabs("select", "#jobsTab");
 }
 
 function createJob() {

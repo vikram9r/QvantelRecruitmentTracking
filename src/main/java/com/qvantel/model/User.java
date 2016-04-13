@@ -24,12 +24,12 @@ public class User implements Cloneable, Serializable{
 	private String email;
 	private String phone;
 	private String mobile;
-	private String role;
+//	private String role;
 	private String status = Status.ACTIVE.getState();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column( name = "id", nullable = false  )
+	@Column( name = "user_id", nullable = false  )
 	public int getId() {
 		return id;
 	}
@@ -139,14 +139,14 @@ public class User implements Cloneable, Serializable{
 		this.mobile = mobile;
 	}
 
-	@Column( name = "role", length = 45  )
+	/*@Column( name = "role", length = 45  )
 	public String getRole() {
 		return role;
 	}
 
 	public void setRole(String role) {
 		this.role = role;
-	}
+	}*/
 
 	
 

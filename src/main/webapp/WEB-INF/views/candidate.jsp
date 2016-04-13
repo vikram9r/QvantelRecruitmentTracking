@@ -1,24 +1,13 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
- <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<script type = "text/javascript">
-	     
-         $(document).ready(function() {
-        	 $('#candidateForm').ajaxForm({ 
-        		 url : 'saveCandidate',
-        	     success : function (data) {
-        	            $('#candidatesTab').html(data);
-        	     }
-                 
-             });
-         });
-      </script>
- </head>
- <body>
-   <input type = "button" onclick = "viewCandidates();" value = "View Candidates" style="float: right;"/>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<c:url var="appContext" value="/" />
+<tiles:insertDefinition name="defaultTemplate">
+    <tiles:putAttribute name="body">
+ <div class="body">
+   <input type = "button" onclick = "location.href='${appContext}viewCandidates';" value = "View Candidates" style="float: right;"/>
 	<form:form id="candidateForm" method="POST" modelAttribute="candidate" action="/QvantelRecruitmentTracking/saveCandidate" enctype="multipart/form-data">
+	   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	   <table>
 			<tr>
 				<td><form:label path="job">Application For</form:label></td>
@@ -54,7 +43,7 @@
 	        <td><form:input path="email" class="required email" type="text" id="email" /></td>
 	    </tr>
 	    
-	    <tr><td><label></label>Attach Resume</td><td><input type="file" name="resume" class="required" id="resume" size="50" /></td></tr>
+	    <!-- <tr><td><label></label>Attach Resume</td><td><input type="file" name="resume" class="required" id="resume" size="50" /></td></tr> -->
 	    
 	    <tr><td><form:label path="gender"></form:label>Gender</td><td><form:select path="gender"><form:option value="0" label="Select" /><form:option value="Male" label="Male" /><form:option value="Female" label="Female" /><form:option value="Others" label="Others" /></form:select></td></tr>
 	    <tr><td><form:label path="dateOfBirth"></form:label>Date Of Birth</td><td><form:input path="dateOfBirth" class="required" type="text" id="dateOfBirth" /></td></tr>
@@ -89,5 +78,6 @@
 	    </tr>
 	</table>  
 	</form:form>
- </body>
-</html>
+	</div>
+ </tiles:putAttribute>
+</tiles:insertDefinition>

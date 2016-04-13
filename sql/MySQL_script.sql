@@ -18,7 +18,6 @@ CREATE TABLE `candidate` (
   `country` varchar(45) DEFAULT NULL,
   `zip_code` varchar(45) DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
-  `profie_photo` blob,
   `prefer_contact_time` time DEFAULT NULL,
   `industry` varchar(45) DEFAULT NULL,
   `functional_area` varchar(45) DEFAULT NULL,
@@ -34,11 +33,14 @@ CREATE TABLE `candidate` (
   `projects` text,
   `notice_period` varchar(45) DEFAULT NULL,
   `job_id` int(10) unsigned NOT NULL,
+  `profile_photo` blob,
+  `resume` longblob,
+  `resume_name` varchar(200) DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `FK_JOB_TRANSACTION_JOB_ID` (`job_id`),
-  CONSTRAINT `FK_JOB_TRANSACTION_JOB_ID` FOREIGN KEY (`job_id`)
-  REFERENCES `job` (`job_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_JOB_TRANSACTION_JOB_ID` FOREIGN KEY (`job_id`) REFERENCES `job` (`job_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
 
 CREATE TABLE `job` (
@@ -72,7 +74,7 @@ CREATE TABLE `job` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
 
 CREATE TABLE `user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `first_name` varchar(45) DEFAULT NULL,
   `middle_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
@@ -80,12 +82,30 @@ CREATE TABLE `user` (
   `job_title` varchar(45) DEFAULT NULL,
   `description` text,
   `user_login` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
+  `password` varchar(500) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `mobile` varchar(45) DEFAULT NULL,
   `role` varchar(45) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `id_username` (`user_id`,`user_login`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `user_roles` (
+  `user_role_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `role` varchar(45) NOT NULL,
+  PRIMARY KEY (`user_role_id`),
+  UNIQUE KEY `uni_user_id_role` (`role`,`user_id`),
+  KEY `fk_username_id` (`user_id`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
+
+CREATE TABLE `profiles_screened` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shared_by_user_id` int(10) NOT NULL,
+  `shared_to_user_id` int(10) NOT NULL,
+  `candidate_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;

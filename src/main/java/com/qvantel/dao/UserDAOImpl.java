@@ -5,20 +5,20 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.qvantel.model.User;
 
+@Repository
 public class UserDAOImpl extends HibernateDAOImpl<User, Integer> implements UserDAO {
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
 	@Autowired
 	public UserDAOImpl(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		super(sessionFactory, User.class);
 	}
 
+	@Transactional(readOnly=true)
 	@Override
 	public User findByUserName(String userName) {
 		Criteria crit = getSessionFactory().getCurrentSession().createCriteria(User.class);
@@ -26,10 +26,10 @@ public class UserDAOImpl extends HibernateDAOImpl<User, Integer> implements User
 		return (User) crit.uniqueResult();
 	}
 
-	@Override
+	/*@Override
 	public Integer create(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return super.create(user);
-	}
+	}*/
 
 }

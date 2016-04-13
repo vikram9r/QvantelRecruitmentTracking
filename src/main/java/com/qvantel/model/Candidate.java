@@ -51,6 +51,7 @@ public class Candidate {
 	private String experienceSummary;
 	private String projectDescription;
 	private String noticePeriod;
+	private String status;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -350,6 +351,15 @@ public class Candidate {
 
 	public void setNoticePeriod(String noticePeriod) {
 		this.noticePeriod = noticePeriod;
+	}
+
+	@Column( name = "status", length = 45  )
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Column( name = "profile_photo")
