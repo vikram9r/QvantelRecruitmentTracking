@@ -5,8 +5,8 @@
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="body">
  <div class="body">
-   <input type = "button" onclick = "location.href='${appContext}viewCandidates';" value = "View Candidates" style="float: right;"/>
-	<form:form id="candidateForm" method="POST" modelAttribute="candidate" action="/QvantelRecruitmentTracking/saveCandidate" enctype="multipart/form-data">
+   <input type = "button" onclick = "location.href='${appContext}candidate/view';" value = "View Candidates" style="float: right;"/>
+	<form:form id="candidateForm" method="POST" modelAttribute="candidate" action="${appContext}saveCandidate" enctype="multipart/form-data">
 	   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	   <table>
 			<tr>

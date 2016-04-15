@@ -1,12 +1,19 @@
 package com.qvantel.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +31,7 @@ public class User implements Cloneable, Serializable{
 	private String email;
 	private String phone;
 	private String mobile;
+	private Set<Role> roles = new HashSet<Role>();
 //	private String role;
 	private String status = Status.ACTIVE.getState();
 
@@ -138,6 +146,20 @@ public class User implements Cloneable, Serializable{
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_roles", joinColumns = { 
+			@JoinColumn(name = "user_id", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "role_id", 
+					nullable = false, updatable = false) })
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 
 	/*@Column( name = "role", length = 45  )
 	public String getRole() {
@@ -149,6 +171,7 @@ public class User implements Cloneable, Serializable{
 	}*/
 
 	
+
 
 	@Override
 	public int hashCode() {

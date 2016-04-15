@@ -4,7 +4,7 @@
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="body">
  <div class="body">
-<form:form id="userForm" method="POST" modelAttribute="user" action="/QvantelRecruitmentTracking/createUser">
+<form:form id="userForm" method="POST" modelAttribute="user" action="/QvantelRecruitmentTracking/user/create">
 	   <table>
 	        <tr><td><form:label path="firstName"></form:label>First Name</td><td><form:input path="firstName" class="required" type="text" id="firstName" /></td></tr>
 	        <tr><td><form:label path="middleName"></form:label>Middle Name</td><td><form:input path="middleName" class="required" type="text" id="middleName" /></td></tr>
@@ -17,6 +17,13 @@
 	        <tr><td><form:label path="phone"></form:label>Phone</td><td><form:input path="phone" class="required" type="text" id="phone" /></td></tr>
 	        <tr><td><form:label path="mobile"></form:label>Mobile</td><td><form:input path="mobile" class="required" type="text" id="mobile" /></td></tr>
 	        <%-- <tr><td><form:label path="role"></form:label>Role</td><td><form:input path="role" class="required" type="text" id="role" /></td></tr> --%>
+	        <tr>
+				<td><form:label path="roles">Role</form:label></td>
+				<td><form:select multiple="true" path="roles" >
+			                <form:options items="${rolesList}" itemValue="id" itemLabel="roleName" />
+					</form:select>
+				</td>
+			</tr>
 	        <tr>
 	        <td colspan="2">
 	            <input type="submit" value="Submit"/>

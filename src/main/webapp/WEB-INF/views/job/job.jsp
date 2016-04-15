@@ -5,8 +5,8 @@
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="body">
  <div class="body">
-   <input type = "button" onclick="location.href='${appContext}viewJobs';" value = "View Jobs" style="float: right;"/>
-	<form:form id="jobForm" method="POST" modelAttribute="job" action="/QvantelRecruitmentTracking/saveJob">
+   <input type = "button" onclick="location.href='${appContext}job/view';" value = "View Jobs" style="float: right;"/>
+	<form:form id="jobForm" method="POST" modelAttribute="job" action="${appContext}job/save">
 	   <table>
 
 			<tr>

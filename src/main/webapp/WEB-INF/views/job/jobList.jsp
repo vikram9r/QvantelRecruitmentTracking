@@ -5,7 +5,7 @@
 <tiles:insertDefinition name="defaultTemplate">
     <tiles:putAttribute name="body">
  <div class="body">
- <input type = "button" onclick="location.href='${appContext}newJob';" value = "Create new" style="float: right;" />
+ <input type = "button" onclick="location.href='${appContext}job/new';" value = "Create new" style="float: right;" />
 	<c:if test="${not empty jobList}">
 	 <table style="border-spacing: 42px 1px;">
 	   <tr align="left"><th>ID</th><th>Title</th><th>Designation</th><th>Min Experience</th></tr>
@@ -15,7 +15,7 @@
 	            <td><c:out value="${job.jobTitle}" /></td>
 	            <td><c:out value="${job.designation}" /></td>
 	            <td><c:out value="${job.minimumExperience}" /></td>
-	            <td><a href="${appContext}applyForJob?job_id=${job.id}" >apply</a></td>
+	            <td><a href="${appContext}job/applyForJob?job_id=${job.id}" >apply</a></td>
 	        </tr>
 	    </c:forEach>
 	 </table>

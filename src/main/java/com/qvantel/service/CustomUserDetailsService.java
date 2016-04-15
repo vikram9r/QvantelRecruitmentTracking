@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.qvantel.dao.UserDAO;
+import com.qvantel.model.Role;
 import com.qvantel.model.User;
 
 @Service ("userDetailsService")
@@ -37,18 +38,11 @@ public class CustomUserDetailsService implements UserDetailsService{
     private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
          
-        /*for(UserProfile userProfile : user.getUserProfiles()){
-            System.out.println("UserProfile : "+userProfile);
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+userProfile.getType()));
-        }*/
-        /*Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-
-		// Build user's authorities
-		for (UserRole userRole : userRoles) {
-			setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
-		}*/
-        
-        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        for(Role userRole : user.getRoles()){
+            System.out.println("UserProfile : "+userRole.getRoleName());
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+userRole.getRoleName()));
+        }
+//        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         System.out.print("authorities :"+authorities);
         return authorities;
     }

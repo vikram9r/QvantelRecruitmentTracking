@@ -27,10 +27,11 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.qvantel.model.User</value>
 				<value>com.qvantel.model.Candidate</value>
 				<value>com.qvantel.model.Job</value>
 				<value>com.qvantel.model.ProfilesScreened</value>
+				<value>com.qvantel.model.User</value>
+				<value>com.qvantel.model.Role</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

@@ -50,48 +50,48 @@ public class CandidateController {
 	private ProfilesScreenedDAO profilesScreenedDAO;
 	
 	@Transactional(readOnly = true)
-	@RequestMapping(value="/viewCandidates")
+	@RequestMapping(value="/candidate/view")
 	public ModelAndView viewCandidates() {
-		ModelAndView model = new ModelAndView("candidateList");
+		ModelAndView model = new ModelAndView("candidate/candidateList");
 		model.addObject("candidateList", candidateDAO.getAll());
 		return model;
 	}
 	
-	@RequestMapping(value="/newCandidate")
+	@RequestMapping(value="/candidate/new")
 	public ModelAndView newCandidate() {
-		ModelAndView model = new ModelAndView("candidate");
+		ModelAndView model = new ModelAndView("candidate/candidate");
 		model.addObject("candidate", new Candidate());
 		model.addObject("jobs", jobDAO.getAll());
 		return model;
 	}
 	
-	@RequestMapping(value="/applyForJob")
+	@RequestMapping(value="/candidate/applyForJob")
 	public ModelAndView applyForJob(@RequestParam String job_id) {
-		ModelAndView model = new ModelAndView("candidate");
+		ModelAndView model = new ModelAndView("candidate/candidate");
 		model.addObject("candidate", new Candidate());
 		model.addObject("jobs", jobDAO.getAll());
 		model.addObject("job_id", Integer.valueOf(job_id));
 		return model;
 	}
 	
-	@RequestMapping(value="/saveCandidate")
+	@RequestMapping(value="/candidate/save")
 	public ModelAndView saveCandidate(/*@RequestParam CommonsMultipartFile resume,*/ @ModelAttribute("candidate")Candidate candidate, BindingResult result, HttpServletRequest request) {
 		candidate.setStatus("New");
 		candidateDAO.create(candidate);
-		ModelAndView model = new ModelAndView("candidateList");
+		ModelAndView model = new ModelAndView("candidate/candidateList");
 		model.addObject("candidateList", candidateDAO.getAll());
 		return model;
 	}
 	
-	@RequestMapping(value="/shareProfilesForScreening")
+	@RequestMapping(value="/candidate/shareProfilesForScreening")
 	public ModelAndView shareProfilesForScreening(@RequestParam(value="candidate_ids[]", required=false) Integer[] candidate_ids) {
-		ModelAndView model = new ModelAndView("shareSelectedProfilesForScreening");
+		ModelAndView model = new ModelAndView("candidate/shareSelectedProfilesForScreening");
 		model.addObject("users", userDAO.getAll());
 		model.addObject("candidate_ids", Arrays.asList(candidate_ids));
 		return model;
 	}
 	
-	@RequestMapping(value="/profilesScreenedTo", method = RequestMethod.POST)
+	@RequestMapping(value="/candidate/profilesScreenedTo", method = RequestMethod.POST)
 	public ModelAndView profilesScreenedTo(@RequestParam String profiesScreenedTo, @RequestParam(required=false) String candidate_ids, HttpServletRequest request) {
 		Integer current_user_id = userDAO.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
 		String[] candidates = candidate_ids.replace("[", "").replace("]", "").split(",");
@@ -109,9 +109,9 @@ public class CandidateController {
 		return viewCandidates();
 	}
 	
-	@RequestMapping(value="/viewResume")
+	@RequestMapping(value="/candidate/viewResume")
 	public ModelAndView viewResume(@RequestParam String candidate_id) throws Exception {
-		ModelAndView model = new ModelAndView("resume");
+		ModelAndView model = new ModelAndView("candidate/resume");
 		Candidate candidate = candidateDAO.get(Integer.valueOf(candidate_id));
 		candidate.getResume();
 		

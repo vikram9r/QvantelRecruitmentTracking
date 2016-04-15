@@ -14,14 +14,19 @@
 	                {
 	                    return $(this).val();
 	                }).get();
-	    	$.post( 
-	    			"shareProfilesForScreening",
-	    			{ candidate_ids: candidates },
-	    			function(data) {
-	    				$('#shareForScreening-dialog').html(data);
-	    			}
-	    	);
-	        $('#shareForScreening-dialog').dialog('open');
+	    	if(candidates.length != 0){
+		    	$.post( 
+		    			"shareProfilesForScreening",
+		    			{ candidate_ids: candidates },
+		    			function(data) {
+		    				$('#shareForScreening-dialog').html(data);
+		    			}
+		    	);
+		    	$('#shareForScreening-dialog').dialog('open');
+	    	}else{
+	    		alert('Select atleast one candidate to share for screening');
+	    	}
+	        
 	        return false;
 	    });
 	    
@@ -33,7 +38,7 @@
  <div class="body">
  <!-- <input type = "button" id="shareForScreening" value = "Share for screening" style="float: right;" /> -->
  <button id="shareForScreening-button" style="float: right;">Share for Screening</button>
- <input type = "button" onclick="location.href='${appContext}newCandidate';" value = "Create new" style="float: right;" />
+ <input type = "button" onclick="location.href='${appContext}candidate/new';" value = "Create new" style="float: right;" />
 	<c:if test="${not empty candidateList}">
 	 <table style="border-spacing: 42px 1px;">
 	   <tr align="left"><th></th><th>ID</th><th>Name</th><th>Eamil</th><th>Mobile</th><th>Status</th></tr>

@@ -20,9 +20,9 @@ public class JobController {
 	private JobDAO jobDAO;
 	
 	@Transactional(readOnly = true)
-	@RequestMapping(value={"/viewJobs"})
+	@RequestMapping(value={"/job/view"})
 	public ModelAndView home() {
-		ModelAndView model = new ModelAndView("jobList");
+		ModelAndView model = new ModelAndView("job/jobList");
 		model.addObject("jobList", jobDAO.getAll());
 		return model;
 	}
@@ -34,17 +34,17 @@ public class JobController {
 		return model;
 	}*/
 	
-	@RequestMapping(value="/newJob")
+	@RequestMapping(value="/job/new")
 	public ModelAndView newJob() {
-		ModelAndView model = new ModelAndView("job");
+		ModelAndView model = new ModelAndView("job/job");
 		model.addObject("job", new Job());
 		return model;
 	}
 	
-	@RequestMapping(value="/saveJob")
+	@RequestMapping(value="/job/save")
 	public ModelAndView saveJob(@ModelAttribute("job")Job job, BindingResult result, HttpServletRequest request) {
 		jobDAO.create(job);
-		ModelAndView model = new ModelAndView("jobList");
+		ModelAndView model = new ModelAndView("job/jobList");
 		model.addObject("jobList", jobDAO.getAll());
 		return model;
 	}

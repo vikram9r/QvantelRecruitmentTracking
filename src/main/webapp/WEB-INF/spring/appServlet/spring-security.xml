@@ -9,8 +9,12 @@
     <!-- <context:component-scan base-package="com.qvantel" />   -->
     <security:http auto-config="true" use-expressions="true" >
         <security:intercept-url pattern="/" access="permitAll" />
-        <security:intercept-url pattern="/viewJobs" access="hasRole('ADMIN')" />
-        <security:intercept-url pattern="/viewCandidates" access="hasRole('ADMIN')" />
+        <security:intercept-url pattern="/user/new" access="hasRole('ADMIN')" />
+        <security:intercept-url pattern="/user/newRole" access="hasRole('ADMIN')" />
+        <security:intercept-url pattern="/user/create" access="hasRole('ADMIN')" />
+        <security:intercept-url pattern="/user/createRole" access="hasRole('ADMIN')" />
+        <!-- <security:intercept-url pattern="/candidate/new" access="hasRole('ADMIN','USER','MANAGER','HR')" /> -->
+        <security:intercept-url pattern="/job/new" access="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" />
         <!-- <intercept-url pattern="/home" access="permitAll" />
         <intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
         <intercept-url pattern="/dba**" access="hasRole('ADMIN') and hasRole('DBA')" /> -->
