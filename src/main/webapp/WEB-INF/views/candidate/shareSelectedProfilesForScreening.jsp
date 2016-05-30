@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%-- <c:url value="j_spring_security_logout" var="logoutUrl" /> --%>
-<form action="candidate/profilesScreenedTo" method="post" >
+<form action="profilesScreenedTo" method="post" >
 	<select name="profiesScreenedTo">
 	  <option value="0">--Select--</option>
 	  <c:forEach items="${users}" var="user">

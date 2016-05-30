@@ -16,14 +16,15 @@ import org.apache.poi.hwpf.HWPFDocumentCore;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
 import org.apache.poi.hwpf.converter.WordToHtmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 
@@ -33,11 +34,13 @@ import com.qvantel.dao.ProfilesScreenedDAO;
 import com.qvantel.dao.UserDAO;
 import com.qvantel.model.Candidate;
 import com.qvantel.model.ProfilesScreened;
+import com.qvantel.util.JsonUtil;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
+@RequestMapping("/candidate")
 public class CandidateController {
 	
 	@Autowired
@@ -48,24 +51,35 @@ public class CandidateController {
 	private UserDAO userDAO;
 	@Autowired
 	private ProfilesScreenedDAO profilesScreenedDAO;
+	 @Autowired
+	 private JavaMailSender mailSender;
 	
-	@Transactional(readOnly = true)
-	@RequestMapping(value="/candidate/view")
+	@RequestMapping(value="/view")
 	public ModelAndView viewCandidates() {
 		ModelAndView model = new ModelAndView("candidate/candidateList");
-		model.addObject("candidateList", candidateDAO.getAll());
+//		model.addObject("candidateList", candidateDAO.getAll());
 		return model;
 	}
 	
-	@RequestMapping(value="/candidate/new")
-	public ModelAndView newCandidate() {
+	@RequestMapping(value="/loadData")
+	public ModelAndView loadCandidates(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("dummy");
+		model.addObject("formData", JsonUtil.toJsonObj(candidateDAO.getCandidates(request)));
+		return model;
+	}
+	
+	@RequestMapping(value="/new")
+	public ModelAndView newCandidate(@RequestParam(value="candidate_id", required=false)  Integer candidate_id) {
 		ModelAndView model = new ModelAndView("candidate/candidate");
-		model.addObject("candidate", new Candidate());
+		if(candidate_id != null && candidate_id != 0)
+			model.addObject("candidate", candidateDAO.get(candidate_id));
+		else 
+			model.addObject("candidate", new Candidate());
 		model.addObject("jobs", jobDAO.getAll());
 		return model;
 	}
 	
-	@RequestMapping(value="/candidate/applyForJob")
+	@RequestMapping(value="/applyForJob")
 	public ModelAndView applyForJob(@RequestParam String job_id) {
 		ModelAndView model = new ModelAndView("candidate/candidate");
 		model.addObject("candidate", new Candidate());
@@ -74,24 +88,41 @@ public class CandidateController {
 		return model;
 	}
 	
-	@RequestMapping(value="/candidate/save")
-	public ModelAndView saveCandidate(/*@RequestParam CommonsMultipartFile resume,*/ @ModelAttribute("candidate")Candidate candidate, BindingResult result, HttpServletRequest request) {
+	@RequestMapping(value="/save")
+	public ModelAndView saveCandidate(@RequestParam CommonsMultipartFile resume, @ModelAttribute("candidate")Candidate candidate, BindingResult result, HttpServletRequest request) {
 		candidate.setStatus("New");
+		candidate.setResumeName(resume.getOriginalFilename());
+		candidate.setResume(resume.getBytes());
 		candidateDAO.create(candidate);
 		ModelAndView model = new ModelAndView("candidate/candidateList");
 		model.addObject("candidateList", candidateDAO.getAll());
 		return model;
 	}
 	
-	@RequestMapping(value="/candidate/shareProfilesForScreening")
+	@RequestMapping(value="/shareProfilesForScreening")
 	public ModelAndView shareProfilesForScreening(@RequestParam(value="candidate_ids[]", required=false) Integer[] candidate_ids) {
 		ModelAndView model = new ModelAndView("candidate/shareSelectedProfilesForScreening");
 		model.addObject("users", userDAO.getAll());
 		model.addObject("candidate_ids", Arrays.asList(candidate_ids));
+		
+		/*final String emailTo = "";
+		final String subject = "";
+		final String message = "";
+
+		mailSender.send(new MimeMessagePreparator() {
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+				messageHelper.setTo(emailTo);
+				messageHelper.setSubject(subject);
+				messageHelper.setText(message);
+			}
+		});*/
+
 		return model;
 	}
 	
-	@RequestMapping(value="/candidate/profilesScreenedTo", method = RequestMethod.POST)
+	@RequestMapping(value="/profilesScreenedTo", method = RequestMethod.POST)
 	public ModelAndView profilesScreenedTo(@RequestParam String profiesScreenedTo, @RequestParam(required=false) String candidate_ids, HttpServletRequest request) {
 		Integer current_user_id = userDAO.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
 		String[] candidates = candidate_ids.replace("[", "").replace("]", "").split(",");
@@ -109,7 +140,7 @@ public class CandidateController {
 		return viewCandidates();
 	}
 	
-	@RequestMapping(value="/candidate/viewResume")
+	@RequestMapping(value="/viewResume")
 	public ModelAndView viewResume(@RequestParam String candidate_id) throws Exception {
 		ModelAndView model = new ModelAndView("candidate/resume");
 		Candidate candidate = candidateDAO.get(Integer.valueOf(candidate_id));

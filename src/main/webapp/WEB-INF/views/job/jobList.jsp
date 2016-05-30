@@ -15,7 +15,7 @@
 	            <td><c:out value="${job.jobTitle}" /></td>
 	            <td><c:out value="${job.designation}" /></td>
 	            <td><c:out value="${job.minimumExperience}" /></td>
-	            <td><a href="${appContext}job/applyForJob?job_id=${job.id}" >apply</a></td>
+	            <td><a href="${appContext}candidate/applyForJob?job_id=${job.id}" >apply</a></td>
 	        </tr>
 	    </c:forEach>
 	 </table>

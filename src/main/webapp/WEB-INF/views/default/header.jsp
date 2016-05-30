@@ -19,5 +19,6 @@
 			Welcome : ${pageContext.request.userPrincipal.name} | <a
 				href="javascript:formSubmit()"> Logout</a>
 		</h3>
+		<br/>
 	</c:if>
-<div class="header"><h1>Qvantel Recruitment Tracking</h1></div>
+<div class="header" align="center"><h1>Qvantel Recruitment Tracking</h1></div>

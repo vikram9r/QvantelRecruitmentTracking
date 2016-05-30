@@ -6,7 +6,7 @@
     <tiles:putAttribute name="body">
  <div class="body">
    <input type = "button" onclick = "location.href='${appContext}candidate/view';" value = "View Candidates" style="float: right;"/>
-	<form:form id="candidateForm" method="POST" modelAttribute="candidate" action="${appContext}saveCandidate" enctype="multipart/form-data">
+	<form:form id="candidateForm" method="POST" modelAttribute="candidate" action="${appContext}candidate/save" enctype="multipart/form-data" style="overflow-y: scroll; height:400px;">
 	   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	   <table>
 			<tr>
@@ -43,7 +43,7 @@
 	        <td><form:input path="email" class="required email" type="text" id="email" /></td>
 	    </tr>
 	    
-	    <!-- <tr><td><label></label>Attach Resume</td><td><input type="file" name="resume" class="required" id="resume" size="50" /></td></tr> -->
+	    <tr><td><label></label>Attach Resume</td><td><input type="file" name="resume" class="required" id="resume" size="50" /></td></tr>
 	    
 	    <tr><td><form:label path="gender"></form:label>Gender</td><td><form:select path="gender"><form:option value="0" label="Select" /><form:option value="Male" label="Male" /><form:option value="Female" label="Female" /><form:option value="Others" label="Others" /></form:select></td></tr>
 	    <tr><td><form:label path="dateOfBirth"></form:label>Date Of Birth</td><td><form:input path="dateOfBirth" class="required" type="text" id="dateOfBirth" /></td></tr>

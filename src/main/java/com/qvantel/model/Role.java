@@ -1,5 +1,6 @@
 package com.qvantel.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +16,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "role")
-public class Role {
-
+public class Role implements  Serializable{
+	private static final long serialVersionUID = 1L; 
 	private int id;
 	private String roleName;
 	private String createdBy;

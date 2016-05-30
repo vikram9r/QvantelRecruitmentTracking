@@ -1,5 +1,6 @@
 package com.qvantel.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "job")
-public class Job {
+public class Job implements  Serializable{
+	private static final long serialVersionUID = 1L; 
 	private int id;
 	private String jobTitle;
 	private String designation;

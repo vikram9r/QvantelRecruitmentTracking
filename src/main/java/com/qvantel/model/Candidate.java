@@ -1,5 +1,6 @@
 package com.qvantel.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,8 +15,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "candidate")
-public class Candidate {
-	
+public class Candidate implements  Serializable{
+	private static final long serialVersionUID = 1L; 
 	private int id;
 	private Job job;
 	private String firstName;

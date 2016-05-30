@@ -1,20 +1,25 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <html>
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	  <title>Qvantel Recruitment Tracking</title>
-	  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	  <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> -->
+	  <link href="<c:url value='/resources/css/jquery-ui.css' />" rel="stylesheet">
+      <link href="<c:url value='/resources/css/jquery-ui.theme.css' />" rel="stylesheet">
+      <link href="<c:url value='/resources/css/jquery-ui.structure.min.css' />" rel="stylesheet">
+      <link rel="stylesheet" href="<c:url value='/resources/css/ui.jqgrid.css' />">
 	  <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
-	  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	  
+	  <script src="<c:url value='/resources/js/jquery-1.11.1.min.js' />"></script>  
+	  <script src="<c:url value='/resources/js/jquery-ui.min.js' />"></script>  
+	  <script src="<c:url value='/resources/js/i18n/grid.locale-en.js' />"></script>
+	  <script src="<c:url value='/resources/js/jquery.jqGrid.min.js' />"></script>
+	  
+	  <!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
 	  <script src="http://malsup.github.com/jquery.form.js"></script>
 	  <script type="text/javascript" src="<c:url value="/resources/js/Candidate.js" />"></script>
-	 
-	  <!-- <script type="text/javascript">
-	  $(function() {
-	    $( "#tabs" ).tabs();
-	  });
-	  </script> -->
     <style type="text/css">
     body {
         margin:0px;

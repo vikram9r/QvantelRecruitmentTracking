@@ -15,12 +15,10 @@
         <security:intercept-url pattern="/user/createRole" access="hasRole('ADMIN')" />
         <!-- <security:intercept-url pattern="/candidate/new" access="hasRole('ADMIN','USER','MANAGER','HR')" /> -->
         <security:intercept-url pattern="/job/new" access="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" />
-        <!-- <intercept-url pattern="/home" access="permitAll" />
-        <intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/dba**" access="hasRole('ADMIN') and hasRole('DBA')" /> -->
+        <security:intercept-url pattern="/candidate/shareProfilesForScreening" access="hasRole('ADMIN') or hasRole('HR')" />
         <security:form-login  login-page="/login"
                      login-processing-url="/login"
-        			 default-target-url="/home"
+        			 default-target-url="/"
         			 authentication-failure-url="/login?error"
                      username-parameter="userName"
                      password-parameter="password" />

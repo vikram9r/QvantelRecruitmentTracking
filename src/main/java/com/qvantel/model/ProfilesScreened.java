@@ -1,5 +1,7 @@
 package com.qvantel.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "profiles_screened")
-public class ProfilesScreened {
+public class ProfilesScreened implements  Serializable{
+	private static final long serialVersionUID = 1L; 
 	private Integer id;
 	private Integer shared_by_user_id;
 	private Integer shared_to_user_id;
