@@ -12,7 +12,7 @@
 
 <strong>Steps to install</strong>
 <ol>
-<li>Clone/<a href="https://github.com/vikram9r/QvantelRecruitmentTracking/archive/master.zip">download</a> the <code>QvantelRecruitmentTracking</code> project in to the local machine.
+<li>Clone/<a href="https://github.com/vikram9r/RecruitmentTracking/archive/master.zip">download</a> the <code>RecruitmentTracking</code> project in to the local machine.
 <li>Import the project in to eclipse as existing maven project.
 <li>Install the application's MYSql database schema from <home>/sql/MYSQL_script.sql .
 <li>From eclipse run the project as <code>Maven</code> 'clean install'.
