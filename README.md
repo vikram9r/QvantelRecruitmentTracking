@@ -1,4 +1,4 @@
-# Qvantel Recruitment Tracking
+# Recruitment Tracking
 
 <strong><h3>Installation</h3></strong>
 
