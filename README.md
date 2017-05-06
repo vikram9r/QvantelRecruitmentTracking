@@ -1,6 +1,6 @@
 # Recruitment Tracking
 
-<strong><h3>Installation</h3></strong>
+<strong><h3>Installation</h3></strong> 
 
 <strong>Required Softwares</strong>
 <ul>
